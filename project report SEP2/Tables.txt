@@ -1,0 +1,136 @@
+create schema "Clinic";
+set search_path = 'Clinic';
+
+CREATE TABLE Patient
+
+(
+   
+patientId       Serial,
+
+firstName       VARCHAR (20),
+
+lastName        VARCHAR (20),
+
+dob                DATE,
+telNumber        VARCHAR (20),
+
+email            VARCHAR (40),
+gender            VarChar (10),
+
+PRIMARY KEY (patientId));
+	
+	
+CREATE TABLE Employee
+(
+    employeeId      Serial,
+   firstName       VARCHAR (20),
+   lastName        VARCHAR (20),
+   dob                DATE,
+    startDate        DATE,
+    telNumber        VARCHAR (20),
+    email            VARCHAR (40),
+    gender            VarChar (10),
+    employeetype    Varchar    (20),
+    userName        VarChar (20),
+    employeepassword    VarChar (20),
+    
+    
+   PRIMARY KEY (employeeId));
+
+
+Create table RequestRenewal
+(
+	requestRenewalId	Serial,
+	patientId			int,
+	dateOfRequest		DATE,	
+	dateOfDecision		DATE,
+	
+	
+	PRIMARY KEY	(requestRenewalId), 
+	FOREIGN KEY (patientID) REFERENCES Patient(patientID));
+	
+
+Create table Appointment
+(
+	appointmentid			Serial,
+	patientid			int,
+	datetimeofappointmentid	int,
+	brief		varchar(1000),
+
+	PRIMARY KEY	(appointmentid), 
+	FOREIGN KEY (patientid) REFERENCES patient(patientid),
+	FOREIGN KEY (datetimeofappointmentid) REFERENCES datetime(datetimeid));
+
+	
+Create table datetime
+(
+	datetimeid		Serial,
+	datetime		timestamp,
+	
+
+	PRIMARY KEY	(DateTimeID));
+	
+	
+	
+Create table Medicine
+(
+	medicineId			Serial,
+	name				VarChar (20),
+	type				VarChar (20),
+	description			VarChar (50),
+	
+	Primary key (medicineId));
+	
+	
+Create table RecordsOfRequestForRenewal
+(
+	recordsOfRequestForRenewalId		Serial,
+	requestRenewalId					int,
+	medicineId							int,
+	approved							CHAR (4),
+	quantity							DATE,	
+	dailyDosage							DATE,
+	
+	
+	PRIMARY KEY	(recordsOfRequestForRenewalId),
+	FOREIGN KEY (requestRenewalId) REFERENCES RequestRenewal(requestRenewalId),
+	FOREIGN KEY (medicineId) REFERENCES Medicine(medicineId));	
+
+
+
+Create table MedicalCase
+(
+	caseId				Serial,
+	patientId       		int,
+	caseTitle			VarChar (20),
+	caseBody			VarChar (20),
+	date				DATE,
+	Primary key (caseId),
+	Foreign key (patientId) References Patient
+ (patientId));
+
+
+
+Create table Prescription
+(
+	prescriptionId		Serial,
+	caseId				int,
+	date				DATE,
+	Primary key (prescriptionId),
+	Foreign key (caseId) References MedicalCase (caseId));
+	
+	
+Create table PrescriptionRecord
+(
+	prescriptionRecordId	Serial,
+	medicineId				int,
+	dailyDose				VarChar (2),
+
+	
+	Primary key (prescriptionRecordId),
+	Foreign key (medicineId) References Medicine (medicineId));
+
+
+
+	
+	
